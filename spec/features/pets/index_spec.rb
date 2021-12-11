@@ -14,67 +14,95 @@ RSpec.describe 'the pets index' do
   let!(:application_2) { Application.create!(name: 'Sue', street_address: '321 Burrito Lane', city: 'Boulder', state: 'UT', zip_code: '54321') }
   let!(:application_3) { Application.create!(name: 'Case', street_address: '4231 Chili Lane', city: 'Denver', state: 'NY', zip_code: '33333') }
 
-  it 'lists all the pets with their attributes' do
-    visit pets_path
+  let(:apply_app_1) { 
+    PetApplication.create!(pet: pet_1, application: application_1)
+    PetApplication.create!(pet: pet_2, application: application_1)
+    PetApplication.create!(pet: pet_3, application: application_1)
+  }
 
-    expect(page).to have_content(pet_1.name)
-    expect(page).to have_content(pet_1.breed)
-    expect(page).to have_content(pet_1.age)
-    expect(page).to have_content(shelter_1.name)
+  let(:apply_app_2) { 
+    PetApplication.create!(pet: pet_2, application: application_2)
+    PetApplication.create!(pet: pet_4, application: application_2)
+  }
 
-    expect(page).to have_content(pet_2.name)
-    expect(page).to have_content(pet_2.breed)
-    expect(page).to have_content(pet_2.age)
-    expect(page).to have_content(shelter_3.name)
-  end
+  describe 'as a user' do
+    describe 'when visit the page' do
+      describe 'view elements' do
+        it 'lists all the pets with their attributes' do
+          visit pets_path
+      
+          expect(page).to have_content(pet_1.name)
+          expect(page).to have_content(pet_1.breed)
+          expect(page).to have_content(pet_1.age)
+          expect(page).to have_content(shelter_1.name)
+      
+          expect(page).to have_content(pet_2.name)
+          expect(page).to have_content(pet_2.breed)
+          expect(page).to have_content(pet_2.age)
+          expect(page).to have_content(shelter_3.name)
+        end
+      
+        it 'only lists adoptable pets' do
+          visit pets_path
+      
+          expect(page).to_not have_content(pet_3.name)
+          expect(page).to_not have_content(pet_4.name)
+        end
+      
+        it 'displays a link to edit each pet' do
+          visit pets_path
+      
+          expect(page).to have_link("Edit #{pet_1.name}", href: edit_pet_path(pet_1))
+          expect(page).to have_link("Edit #{pet_2.name}", href: edit_pet_path(pet_2))
+        end
+        
+        it 'displays a link to delete each pet' do
+          visit pets_path
+          
+          expect(page).to have_content("Delete #{pet_1.name}")
+          expect(page).to have_content("Delete #{pet_2.name}")
+          
+        end
 
-  it 'only lists adoptable pets' do
-    visit pets_path
-
-    expect(page).to_not have_content(pet_3.name)
-    expect(page).to_not have_content(pet_4.name)
-  end
-
-  it 'displays a link to edit each pet' do
-    visit pets_path
-
-    expect(page).to have_content("Edit #{pet_1.name}")
-    expect(page).to have_content("Edit #{pet_2.name}")
-
-    click_link("Edit #{pet_1.name}")
-
-    expect(page).to have_current_path("/pets/#{pet_1.id}/edit")
-  end
-
-  it 'displays a link to delete each pet' do
-    visit pets_path
-
-    expect(page).to have_content("Delete #{pet_1.name}")
-    expect(page).to have_content("Delete #{pet_2.name}")
-
-    click_link("Delete #{pet_1.name}")
-
-    expect(page).to have_current_path(pets_path)
-    expect(page).to_not have_content(pet_1.name)
-  end
-
-  it 'has a text box to filter results by keyword' do
-    visit pets_path
-    expect(page).to have_button("Search")
-  end
-
-  it 'lists partial matches as search results' do
-    pet_5 = Pet.create(adoptable: true, age: 7, breed: 'sphynx', name: 'Bare-y Manilow', shelter_id: shelter_1.id)
-
-    visit pets_path
-
-    fill_in 'Search', with: "Ba"
-    click_on("Search")
-
-    expect(page).to have_content(pet_1.name)
-    expect(page).to have_content(pet_5.name)
-    expect(page).to_not have_content(pet_2.name)
-    expect(page).to_not have_content(pet_3.name)
-    expect(page).to_not have_content(pet_4.name)
+        it 'has a text box to filter results by keyword' do
+          visit pets_path
+          expect(page).to have_button("Search")
+        end
+      end
+      
+      describe 'when click links' do
+        it 'redirects the user to edit pet' do
+          visit pets_path
+          click_link("Edit #{pet_1.name}")
+          
+          expect(page).to have_current_path(edit_pet_path(pet_1))
+        end
+        
+        it 'redirects the user to delete the pet' do
+          visit pets_path
+          click_link("Delete #{pet_1.name}")
+          
+          expect(page).to have_current_path(pets_path)
+          expect(page).to_not have_content(pet_1.name)
+        end
+      end
+      
+      describe 'when click buttons' do
+        it 'lists partial matches as search results' do
+          pet_5 = Pet.create(adoptable: true, age: 7, breed: 'sphynx', name: 'Bare-y Manilow', shelter_id: shelter_1.id)
+          
+          visit pets_path
+          
+          fill_in 'Search', with: "Ba"
+          click_on("Search")
+          
+          expect(page).to have_content(pet_1.name)
+          expect(page).to have_content(pet_5.name)
+          expect(page).to_not have_content(pet_2.name)
+          expect(page).to_not have_content(pet_3.name)
+          expect(page).to_not have_content(pet_4.name)
+        end
+      end
+    end
   end
 end
