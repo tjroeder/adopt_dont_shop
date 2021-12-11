@@ -1,0 +1,16 @@
+<h1>Application #<%= @application.id %></h1>
+<h2>Application Details:</h2>
+
+<ul class="no-bullet">
+  <li>Name: <%= @application.name %></li>
+  <li>Address: <%= @application.full_address %></li>
+  <li>Application Status: <%= @application.status %></li>
+  <li>Pet(s) wishing to adopt:</li>
+    <ul>
+      <% @application.pets.each do |pet| %>
+        <li id="pet-<%= pet.id %>"><%= link_to pet.name, pet_path(pet) %></li>
+      <% end %>
+    </ul>
+</ul>
+<h3>Application Adoption Request Description:</h3>
+<p><%= @application.description %></p>
