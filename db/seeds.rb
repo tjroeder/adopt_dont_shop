@@ -10,3 +10,10 @@ pet_4 = shelter_2.create!(adoptable: false, age: 5, breed: 'dachshund', name: 'W
 application_1 = Application.create!(name: 'Tim', street_address: '123 Taco Lane', city: 'Fort', state: 'CO', zip_code: '12345')
 application_2 =  Application.create!(name: 'Sue', street_address: '321 Burrito Lane', city: 'Boulder', state: 'UT', zip_code: '54321')
 application_3 =  Application.create!(name: 'Case', street_address: '4231 Chili Lane', city: 'Denver', state: 'NY', zip_code: '33333')
+
+PetApplication.create!(pet: pet_1, application: application_1)
+PetApplication.create!(pet: pet_2, application: application_1)
+PetApplication.create!(pet: pet_3, application: application_1)
+
+PetApplication.create!(pet: pet_2, application: application_2)
+PetApplication.create!(pet: pet_4, application: application_2)
