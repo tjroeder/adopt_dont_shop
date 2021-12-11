@@ -27,6 +27,8 @@ RSpec.describe 'the pets index' do
 
   describe 'as a user' do
     describe 'when visit the page' do
+      before(:each) { visit pets_path }
+
       describe 'view elements' do
         it 'lists all the pets with their attributes' do
           visit pets_path
@@ -43,43 +45,37 @@ RSpec.describe 'the pets index' do
         end
       
         it 'only lists adoptable pets' do
-          visit pets_path
-      
           expect(page).to_not have_content(pet_3.name)
           expect(page).to_not have_content(pet_4.name)
         end
       
         it 'displays a link to edit each pet' do
-          visit pets_path
-      
           expect(page).to have_link("Edit #{pet_1.name}", href: edit_pet_path(pet_1))
           expect(page).to have_link("Edit #{pet_2.name}", href: edit_pet_path(pet_2))
         end
         
         it 'displays a link to delete each pet' do
-          visit pets_path
-          
           expect(page).to have_content("Delete #{pet_1.name}")
           expect(page).to have_content("Delete #{pet_2.name}")
           
         end
 
         it 'has a text box to filter results by keyword' do
-          visit pets_path
           expect(page).to have_button("Search")
+        end
+
+        it 'has a link to create a new application' do
         end
       end
       
       describe 'when click links' do
         it 'redirects the user to edit pet' do
-          visit pets_path
           click_link("Edit #{pet_1.name}")
           
           expect(page).to have_current_path(edit_pet_path(pet_1))
         end
         
         it 'redirects the user to delete the pet' do
-          visit pets_path
           click_link("Delete #{pet_1.name}")
           
           expect(page).to have_current_path(pets_path)
