@@ -55,9 +55,8 @@ RSpec.describe 'the pets index' do
         end
         
         it 'displays a link to delete each pet' do
-          expect(page).to have_content("Delete #{pet_1.name}")
-          expect(page).to have_content("Delete #{pet_2.name}")
-          
+          expect(page).to have_link("Delete #{pet_1.name}", href: pet_path(pet_1))
+          expect(page).to have_link("Delete #{pet_2.name}", href: pet_path(pet_2))
         end
 
         it 'has a text box to filter results by keyword' do
@@ -65,6 +64,7 @@ RSpec.describe 'the pets index' do
         end
 
         it 'has a link to create a new application' do
+          expect(page).to have_link('Start an Application', href: new_application_path)
         end
       end
       
@@ -80,6 +80,12 @@ RSpec.describe 'the pets index' do
           
           expect(page).to have_current_path(pets_path)
           expect(page).to_not have_content(pet_1.name)
+        end
+
+        it 'redirects the user to start a new application' do
+          click_link 'Start an Application'
+
+          expect(page).to have_current_path(new_application_path)
         end
       end
       
