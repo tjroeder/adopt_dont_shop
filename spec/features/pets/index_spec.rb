@@ -84,7 +84,7 @@ RSpec.describe 'the pets index' do
 
         it 'redirects the user to start a new application' do
           click_link 'Start an Application'
-
+          
           expect(page).to have_current_path(new_application_path)
         end
       end
