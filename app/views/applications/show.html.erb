@@ -12,5 +12,19 @@
       <% end %>
     </ul>
 </ul>
+
+<% if @application[:status] == 'In Progress' %>
+  <h3>Add a Pet to this Application:</h3>
+  <%= render partial: 'shared/search', locals: {
+                                                sel_path: application_path,
+                                                search_label: 'Pet name:',
+                                                button_text: 'Search'
+                                               } %>
+  <% if @pets.present? %>
+    <% @pets.each do |pet| %> 
+      <h4><%= pet.name %></h4>  
+    <% end %>                                 
+  <% end %>
+<% end %>
 <h3>Application Adoption Request Description:</h3>
 <p><%= @application.description %></p>

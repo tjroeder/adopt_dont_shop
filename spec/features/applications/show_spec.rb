@@ -27,56 +27,89 @@ RSpec.describe '/applications/show.html.erb', type: :feature do
 
   describe 'as a user' do
     describe 'when visit the page' do
-      describe 'view elements' do
-        it 'displays applicant name' do
-          visit application_path(application_1)
-          
-          expect(page).to have_content(application_1.name)
-        end
+      context 'status is in progress' do
+        describe 'view elements' do
+          it 'displays applicant name' do
+            visit application_path(application_1)
+            
+            expect(page).to have_content(application_1.name)
+          end
 
-        it 'displays applicant full address' do
-          visit application_path(application_1)
-          
-          expect(page).to have_content(application_1.full_address)
-        end
+          it 'displays applicant full address' do
+            visit application_path(application_1)
+            
+            expect(page).to have_content(application_1.full_address)
+          end
 
-        it 'displays application status' do
-          visit application_path(application_1)
-          
-          expect(page).to have_content(application_1.status)
-        end
-        
-        it 'displays pets wishing to adopt with links to pet' do
-          apply_app_1
-          visit application_path(application_1)
-
-          within("#pet-#{pet_1.id}") do
-            expect(page).to have_link(pet_1.name, href: pet_path(pet_1))
+          it 'displays application status' do
+            visit application_path(application_1)
+            
+            expect(page).to have_content(application_1.status)
           end
           
-          within("#pet-#{pet_2.id}") do
-            expect(page).to have_link(pet_2.name, href: pet_path(pet_2))
+          it 'displays pets wishing to adopt with links to pet' do
+            apply_app_1
+            visit application_path(application_1)
+
+            within("#pet-#{pet_1.id}") do
+              expect(page).to have_link(pet_1.name, href: pet_path(pet_1))
+            end
+            
+            within("#pet-#{pet_2.id}") do
+              expect(page).to have_link(pet_2.name, href: pet_path(pet_2))
+            end
+            within("#pet-#{pet_3.id}") do
+              expect(page).to have_link(pet_3.name, href: pet_path(pet_3))
+            end
           end
-          within("#pet-#{pet_3.id}") do
-            expect(page).to have_link(pet_3.name, href: pet_path(pet_3))
+
+          it 'displays applicant adoption request description' do
+            visit application_path(application_1)
+            
+            expect(page).to have_content(application_1.description)
+          end
+
+          it 'displays pet search field and button when in progress' do
+            visit new_application_path
+            
+            new_app = {name: 'John', street: '555 Not Street', city: 'Little Apple', state: 'CA', zip: '22222'}
+            fill_in 'Name:', with: new_app[:name]
+            fill_in 'Street Address:', with: new_app[:street]
+            fill_in 'City:', with: new_app[:city]
+            fill_in 'State:', with: new_app[:state]
+            fill_in 'Zip Code:', with: new_app[:zip]
+            click_button 'Create Application'
+
+            expect(page).to have_current_path(application_path(Application.last))
+            expect(page).to have_field(:search)
+            expect(page).to have_button('Search')
           end
         end
 
-        it 'displays applicant adoption request description' do
-          visit application_path(application_1)
-          
-          expect(page).to have_content(application_1.description)
+        describe 'when click links or buttons' do
+          it 'redirects the user to the individual pet' do
+            apply_app_1
+            visit application_path(application_1)
+            click_link "#{pet_1.name}"
+    
+            expect(page).to have_current_path(pet_path(pet_1))
+          end
+
+          it 'searchs for pets and displays them' do
+            pet_5 = Pet.create(adoptable: true, age: 7, breed: 'sphynx', name: 'Bare-y Manilow', shelter_id: shelter_1.id)
+
+            visit application_path(application_1)
+            save_and_open_page
+            fill_in :search, with: "Ba"
+            click_on("Search")
+
+            expect(page).to have_content(pet_1.name)
+            expect(page).to have_content(pet_5.name)
+            expect(page).to_not have_content(pet_2.name)
+            expect(page).to_not have_content(pet_3.name)
+            expect(page).to_not have_content(pet_4.name)
+          end
         end
-      end
-    end
-
-    describe 'when click links' do
-      it 'redirects the user to the individual pet' do
-        apply_app_1
-        visit application_path(application_1)
-        click_link "#{pet_1.name}"
-
-        expect(page).to have_current_path(pet_path(pet_1))
       end
     end
   end
