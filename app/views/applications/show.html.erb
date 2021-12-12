@@ -22,7 +22,7 @@
                                                } %>
   <% if @pets.present? %>
     <% @pets.each do |pet| %> 
-      <h4><%= pet.name %></h4>  
+      <h4><%= pet.name %> <%= button_to 'Adopt this Pet', pet_applications_path(app_id: "#{@application.id}", pet_id: "#{pet.id}"), method: :post, class: "#adopt-#{pet.id}" %></h4>  
     <% end %>                                 
   <% end %>
 <% end %>
