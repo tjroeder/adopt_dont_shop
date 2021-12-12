@@ -99,7 +99,6 @@ RSpec.describe '/applications/show.html.erb', type: :feature do
             pet_5 = Pet.create(adoptable: true, age: 7, breed: 'sphynx', name: 'Bare-y Manilow', shelter_id: shelter_1.id)
 
             visit application_path(application_1)
-
             fill_in :search, with: "Ba"
             click_on("Search")
 
