@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get '/', to: 'application#welcome'
 
-  resources :applications, only: [:show]
+  resources :applications
   resources :pets
 
   get '/shelters', to: 'shelters#index'
