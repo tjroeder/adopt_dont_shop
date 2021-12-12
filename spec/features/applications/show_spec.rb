@@ -77,7 +77,6 @@ RSpec.describe '/applications/show.html.erb', type: :feature do
         save_and_open_page
         click_link "#{pet_1.name}"
 
-
         expect(page).to have_current_path(pet_path(pet_1))
       end
     end
