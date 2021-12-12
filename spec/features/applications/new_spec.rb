@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe '/applications/show.html.erb', type: :feature do
+RSpec.describe '/applications/new.html.erb' do
   let!(:shelter_1) { Shelter.create!(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9) }
   let!(:shelter_2) { Shelter.create!(name: 'Dumb Friends League', city: 'Denver, CO', foster_program: true, rank: 6) }
   let!(:shelter_3) { Shelter.create!(name: 'Animal House', city: 'Fort Collins, CO', foster_program: false, rank: 9) }
@@ -27,56 +27,41 @@ RSpec.describe '/applications/show.html.erb', type: :feature do
 
   describe 'as a user' do
     describe 'when visit the page' do
+      before(:each) { visit new_application_path }
       describe 'view elements' do
-        it 'displays applicant name' do
-          visit application_path(application_1)
-          
-          expect(page).to have_content(application_1.name)
-        end
+        it 'renders the new form' do
+          visit new_application_path
 
-        it 'displays applicant full address' do
-          visit application_path(application_1)
-          
-          expect(page).to have_content(application_1.full_address)
-        end
-
-        it 'displays application status' do
-          visit application_path(application_1)
-          
-          expect(page).to have_content(application_1.status)
-        end
-        
-        it 'displays pets wishing to adopt with links to pet' do
-          apply_app_1
-          visit application_path(application_1)
-
-          within("#pet-#{pet_1.id}") do
-            expect(page).to have_link(pet_1.name, href: pet_path(pet_1))
-          end
-          
-          within("#pet-#{pet_2.id}") do
-            expect(page).to have_link(pet_2.name, href: pet_path(pet_2))
-          end
-          within("#pet-#{pet_3.id}") do
-            expect(page).to have_link(pet_3.name, href: pet_path(pet_3))
-          end
-        end
-
-        it 'displays applicant adoption request description' do
-          visit application_path(application_1)
-          
-          expect(page).to have_content(application_1.description)
+          expect(page).to have_content('New Application')
+          expect(find('form')).to have_field('Name:', type: 'text')
+          expect(find('form')).to have_field('Street Address:', type: 'text')
+          expect(find('form')).to have_field('City:', type: 'text')
+          expect(find('form')).to have_field('State:', type: 'text')
+          expect(find('form')).to have_field('Zip Code:', type: 'text')
+          expect(find('form')).to have_button('Create Application')
         end
       end
-    end
 
-    describe 'when click links' do
-      it 'redirects the user to the individual pet' do
-        apply_app_1
-        visit application_path(application_1)
-        click_link "#{pet_1.name}"
+      describe 'creates a new application' do
+        context 'given valid data' do
+          it 'creates the new application and redirects to the show page' do
+            visit new_application_path
+            new_app = {name: 'John', street: '555 Not Street', city: 'Little Apple', state: 'CA', zip: '22222'}
+            fill_in 'Name:', with: new_app[:name]
+            fill_in 'Street Address:', with: new_app[:street]
+            fill_in 'City:', with: new_app[:city]
+            fill_in 'State:', with: new_app[:state]
+            fill_in 'Zip Code:', with: new_app[:zip]
+            click_button 'Create Application'
 
-        expect(page).to have_current_path(pet_path(pet_1))
+            expected = Application.last
+            expect(page).to have_current_path(application_path(expected.id))
+            expect(page).to have_content(expected.name)
+            expect(page).to have_content(expected.full_address)
+            expect(page).to have_content('Application Status: In Progress')
+            expect(page).to have_content('Pet Application Request Description')
+          end
+        end
       end
     end
   end

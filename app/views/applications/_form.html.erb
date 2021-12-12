@@ -1,0 +1,26 @@
+<%= form_with model: object, local: true do |f| %>
+  <p>
+  <%= f.label :name, 'Name:' %>
+  <%= f.text_field :name %>
+  </p>
+  <p>
+  <%= f.label :street_address, 'Street Address:' %>
+  <%= f.text_field :street_address %>
+  </p>
+  <p>
+  <%= f.label :city, 'City:' %>
+  <%= f.text_field :city %>
+  </p>
+  <p>
+  <%= f.label :state, 'State:' %>
+  <%= f.text_field :state %>
+  </p>
+  <p>
+  <%= f.label :zip_code, 'Zip Code:' %>
+  <%= f.text_field :zip_code %>
+  </p>
+
+  <p>
+  <%= f.submit button_text %>
+  </p>
+<% end %>
