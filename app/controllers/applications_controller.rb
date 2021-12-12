@@ -17,6 +17,9 @@ class ApplicationsController < ApplicationController
   end
 
   def show
+    if params[:search].present?
+      @pets = Pet.search(params[:search])
+    end
   end
 
   private
