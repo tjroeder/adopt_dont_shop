@@ -11,8 +11,8 @@
 
   <body>
     <% flash.each do |type, msg| %>
-      <div>
-        <%= msg %>
+      <div id="flash-<%=type%>">
+          <h1><%= msg %></h1>
       </div>
     <% end %>
     <section>

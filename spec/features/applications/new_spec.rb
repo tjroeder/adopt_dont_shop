@@ -30,8 +30,6 @@ RSpec.describe '/applications/new.html.erb' do
       before(:each) { visit new_application_path }
       describe 'view elements' do
         it 'renders the new form' do
-          visit new_application_path
-
           expect(page).to have_content('New Application')
           expect(find('form')).to have_field('Name:', type: 'text')
           expect(find('form')).to have_field('Street Address:', type: 'text')
@@ -45,7 +43,6 @@ RSpec.describe '/applications/new.html.erb' do
       describe 'creates a new application' do
         context 'given valid data' do
           it 'creates the new application and redirects to the show page' do
-            visit new_application_path
             new_app = {name: 'John', street: '555 Not Street', city: 'Little Apple', state: 'CA', zip: '22222'}
             fill_in 'Name:', with: new_app[:name]
             fill_in 'Street Address:', with: new_app[:street]
@@ -60,6 +57,21 @@ RSpec.describe '/applications/new.html.erb' do
             expect(page).to have_content(expected.full_address)
             expect(page).to have_content('Application Status: In Progress')
             expect(page).to have_content('Pet Application Request Description')
+          end
+        end
+
+        context 'given invalid data' do
+          it 'redirects the user back to the new application page' do
+            new_app = {name: 'John', street: '555 Not Street', city: 'Little Apple', state: 'CA', zip: '22222'}
+            fill_in 'Name:', with: new_app[:name]
+            fill_in 'Street Address:', with: new_app[:street]
+            fill_in 'City:', with: new_app[:city]
+            click_button 'Create Application'
+
+            expect(page).to have_current_path(new_application_path)
+            within("#flash-alert") do
+              expect(page).to have_content("Error: State can't be blank, Zip code can't be blank")
+            end
           end
         end
       end
