@@ -74,7 +74,6 @@ RSpec.describe '/applications/show.html.erb', type: :feature do
       it 'redirects the user to the individual pet' do
         apply_app_1
         visit application_path(application_1)
-        save_and_open_page
         click_link "#{pet_1.name}"
 
         expect(page).to have_current_path(pet_path(pet_1))
