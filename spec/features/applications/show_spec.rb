@@ -99,7 +99,7 @@ RSpec.describe '/applications/show.html.erb', type: :feature do
             pet_5 = Pet.create(adoptable: true, age: 7, breed: 'sphynx', name: 'Bare-y Manilow', shelter_id: shelter_1.id)
 
             visit application_path(application_1)
-            save_and_open_page
+
             fill_in :search, with: "Ba"
             click_on("Search")
 
@@ -108,6 +108,20 @@ RSpec.describe '/applications/show.html.erb', type: :feature do
             expect(page).to_not have_content(pet_2.name)
             expect(page).to_not have_content(pet_3.name)
             expect(page).to_not have_content(pet_4.name)
+          end
+
+          it 'adds the selected pet wishlist and displays them' do
+            pet_5 = Pet.create(adoptable: true, age: 7, breed: 'sphynx', name: 'Bare-y Manilow', shelter_id: shelter_1.id)
+
+            visit application_path(application_1)
+
+            fill_in :search, with: "Ba"
+            click_on("Search")
+            click_on('Adopt this Pet', { class: "#adopt-#{pet_5.id}" })
+
+            within("#pet-#{pet_5.id}") do
+              expect(page).to have_content(pet_5.name)
+            end
           end
         end
       end
