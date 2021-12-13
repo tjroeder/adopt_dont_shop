@@ -84,9 +84,22 @@ RSpec.describe '/applications/show.html.erb', type: :feature do
             expect(page).to have_field(:search)
             expect(page).to have_button('Search')
           end
+
+          it 'displays app desciption text field when greater than one pet added' do
+            pet_5 = Pet.create(adoptable: true, age: 7, breed: 'sphynx', name: 'Bare-y Manilow', shelter_id: shelter_1.id)
+
+            visit application_path(application_1)
+            expect(page).to have_no_field(:description)
+
+            fill_in :search, with: "Ba"
+            click_on("Search")
+            click_on('Adopt this Pet', { class: "#adopt-#{pet_5.id}" })
+
+            expect(page).to have_field('application_description')
+          end
         end
 
-        describe 'when click links or buttons' do
+        describe 'when interacts with page elements' do
           it 'redirects the user to the individual pet' do
             apply_app_1
             visit application_path(application_1)
@@ -99,7 +112,6 @@ RSpec.describe '/applications/show.html.erb', type: :feature do
             pet_5 = Pet.create(adoptable: true, age: 7, breed: 'sphynx', name: 'Bare-y Manilow', shelter_id: shelter_1.id)
 
             visit application_path(application_1)
-
             fill_in :search, with: "Ba"
             click_on("Search")
 
@@ -122,6 +134,50 @@ RSpec.describe '/applications/show.html.erb', type: :feature do
             within("#pet-#{pet_5.id}") do
               expect(page).to have_content(pet_5.name)
             end
+          end
+
+          it 'updates the description of the application and returns to the show page' do
+            apply_app_1
+            visit application_path(application_1)
+            
+            fill_in :application_description, with: "This is a new description"
+            click_button 'Submit'
+            
+            expect(page).to have_current_path(application_path(application_1))
+            expect(page).to have_content("This is a new description")
+          end
+          
+          it 'updates the status to pending after submitting' do
+            apply_app_1
+            visit application_path(application_1)
+            
+            fill_in :application_description, with: "This is a new description"
+            click_button 'Submit'
+            
+            expect(page).to have_content("Pending")
+          end
+
+          it 'shows all the pets the applicant wants to adopt after submit' do
+            apply_app_1
+            visit application_path(application_1)
+            
+            fill_in :application_description, with: "This is a new description"
+            click_button 'Submit'
+            
+            expect(page).to have_content(pet_1.name)
+            expect(page).to have_content(pet_2.name)
+            expect(page).to have_content(pet_3.name)
+          end
+          
+          it 'does not show search pets after submit' do
+            apply_app_1
+            visit application_path(application_1)
+            
+            fill_in :application_description, with: "This is a new description"
+            click_button 'Submit'
+            
+            expect(page).to have_no_content('Add a Pet to this Application:')
+            expect(page).to have_no_button('Search')
           end
         end
       end
