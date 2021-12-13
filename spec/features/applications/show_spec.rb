@@ -154,7 +154,7 @@ RSpec.describe '/applications/show.html.erb', type: :feature do
             fill_in :application_description, with: "This is a new description"
             click_button 'Submit'
             
-            expect(page).to have_content("This is a new description")
+            expect(page).to have_content("Pending")
           end
 
           it 'shows all the pets the applicant wants to adopt after submit' do
