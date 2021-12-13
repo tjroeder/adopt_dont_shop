@@ -1,5 +1,5 @@
 class Admin::SheltersController < ApplicationController
   def index
-    @shelters = Shelters.shelter_rev_alphabetical
+    @shelters = Shelter.shelter_rev_alphabetical
   end
 end
