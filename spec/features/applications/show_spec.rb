@@ -90,6 +90,7 @@ RSpec.describe '/applications/show.html.erb', type: :feature do
 
             visit application_path(application_1)
             expect(page).to have_no_field(:description)
+            expect(page).to have_no_field(:submit)
 
             fill_in :search, with: "Ba"
             click_on("Search")
