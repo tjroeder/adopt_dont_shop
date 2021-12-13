@@ -1,5 +1,5 @@
 class ApplicationsController < ApplicationController
-  before_action :set_application, only: [:show]
+  before_action :set_application, only: [:show, :update]
 
   def new
     @application = Application.new
@@ -22,6 +22,11 @@ class ApplicationsController < ApplicationController
     end
   end
 
+  def update
+    @application.update!(application_params)
+    redirect_to application_path
+  end
+
   private
 
   def set_application
@@ -29,6 +34,6 @@ class ApplicationsController < ApplicationController
   end
 
   def application_params
-    params.require(:application).permit(:name, :street_address, :city, :state, :zip_code)
+    params.require(:application).permit(:name, :street_address, :city, :state, :zip_code, :description, :status)
   end
 end
