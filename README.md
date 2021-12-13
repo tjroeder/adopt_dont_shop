@@ -4,7 +4,7 @@
 ![visual-schema.png](https://i.postimg.cc/0ywZgQ1W/visual-schema.png)
 
 ### New database design
-![image](https://user-images.githubusercontent.com/78194232/145657479-13ee066b-f50f-463c-94e2-13449cf3d56f.png)
+![image](https://user-images.githubusercontent.com/78194232/145857969-a1eda562-d46d-4860-8c5a-77544ef0a3b4.png)
 
 ## Learning Goals
 
