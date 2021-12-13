@@ -5,6 +5,8 @@ class Shelter < ApplicationRecord
 
   has_many :pets, dependent: :destroy
 
+  # Class Methods
+
   def self.order_by_recently_created
     order(created_at: :desc)
   end
@@ -15,6 +17,14 @@ class Shelter < ApplicationRecord
       .group("shelters.id")
       .order("pets_count DESC")
   end
+
+  def self.shelter_rev_alphabetical
+    find_by_sql("SELECT * 
+                FROM shelters
+                ORDER BY name desc;")
+  end
+
+  # Instance Methods
 
   def pet_count
     pets.count

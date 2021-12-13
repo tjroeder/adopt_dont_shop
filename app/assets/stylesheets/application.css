@@ -20,7 +20,8 @@
   padding: 0;
 }
 
-.flash-msg {
-  border-color: red;
+
+.flash-alert {
+  border: solid red 4px;
   align-content: center;
 }
