@@ -115,12 +115,23 @@ RSpec.describe '/applications/show.html.erb', type: :feature do
             visit application_path(application_1)
             fill_in :search, with: "Ba"
             click_on("Search")
-
+            
             expect(page).to have_content(pet_1.name)
             expect(page).to have_content(pet_5.name)
             expect(page).to_not have_content(pet_2.name)
             expect(page).to_not have_content(pet_3.name)
             expect(page).to_not have_content(pet_4.name)
+          end
+          
+          it 'searchs for pets case insensitive and partial matches' do
+            visit application_path(application_1)
+            fill_in :search, with: "O"
+            click_on("Search")
+            
+            expect(page).to have_no_content(pet_1.name)
+            expect(page).to have_content(pet_2.name)
+            expect(page).to have_content(pet_3.name)
+            expect(page).to have_content(pet_4.name)
           end
 
           it 'adds the selected pet wishlist and displays them' do
