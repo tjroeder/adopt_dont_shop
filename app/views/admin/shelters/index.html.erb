@@ -1,11 +1,5 @@
 <h1>All Shelters</h1>
 
-<%= form_with url: "/shelters", method: :get, local: true do |f| %>
-  <%= f.label :search %>
-  <%= f.text_field :search %>
-  <%= f.submit "Search" %>
-<% end %>
-
 <% @shelters.each do |shelter| %>
   <div id="shelter-<%= shelter.id %>">
     <h3><%= shelter.name %></h3>
