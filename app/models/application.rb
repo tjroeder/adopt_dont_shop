@@ -16,5 +16,9 @@ class Application < ApplicationRecord
 
   def full_address
     "#{street_address} #{city}, #{state} #{zip_code}"
-  end    
+  end
+
+  def pet_count
+    pets.count
+  end
 end
