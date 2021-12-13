@@ -20,8 +20,8 @@ class Shelter < ApplicationRecord
 
   def self.shelter_rev_alphabetical
     find_by_sql("SELECT * 
-                 FROM shelters
-                 ORDER BY name desc;")
+                FROM shelters
+                ORDER BY name desc;")
   end
 
   # Instance Methods
