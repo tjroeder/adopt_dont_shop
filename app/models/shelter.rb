@@ -24,6 +24,10 @@ class Shelter < ApplicationRecord
                 ORDER BY name desc;")
   end
 
+  def self.shelter_filter_by_pending
+    joins({pets: :applications}).where(applications: {status: 'Pending'}).distinct
+  end
+
   # Instance Methods
 
   def pet_count

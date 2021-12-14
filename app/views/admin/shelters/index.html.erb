@@ -8,3 +8,12 @@
     <%= link_to "Delete #{shelter.name}", "/shelters/#{shelter.id}", method: :delete %>
   </div>
 <% end %>
+
+<h2>Shelters with Pending Applications:</h2>
+<section id="shelters-pending">
+  <ul>
+  <% @shelters_pending.each do |s| %>
+      <li><%= s.name %></li>
+  <% end %>
+  </ul>
+</section>
