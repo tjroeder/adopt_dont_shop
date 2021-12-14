@@ -36,6 +36,18 @@ RSpec.describe '/admin/shelters/index.html.erb', type: :feature do
           expect(shelter_2.name).to appear_before(shelter_3.name)
           expect(shelter_1.name).to appear_before(shelter_3.name)
         end
+
+        it 'has section to display shelters with pending applications' do
+          apply_app_1
+          application_1.update!(status: 'Pending')
+          visit admin_shelters_path
+
+          within("#shelters-pending") do
+            expect(page).to have_content(shelter_1.name)
+            expect(page).to have_content(shelter_3.name)
+            expect(page).to have_no_content(shelter_2.name)
+          end
+        end
       end
     end
   end
