@@ -30,11 +30,9 @@ RSpec.describe Application, type: :model do
   let!(:pet_3) { shelter_3.pets.create!(adoptable: false, age: 2, breed: 'saint bernard', name: 'Beethoven') }
   let!(:pet_4) { shelter_2.pets.create!(adoptable: false, age: 5, breed: 'dachshund', name: 'Woodrow') }
 
-  let(:apply_app_1) { 
-    PetApplication.create!(pet: pet_1, application: application_1)
-    PetApplication.create!(pet: pet_2, application: application_1)
-    PetApplication.create!(pet: pet_3, application: application_1)
-  }
+  let!(:pet_app_1) { PetApplication.create!(pet: pet_1, application: application_1) }
+  let!(:pet_app_2) { PetApplication.create!(pet: pet_2, application: application_1) }
+  let!(:pet_app_3) { PetApplication.create!(pet: pet_3, application: application_1) }
 
   describe 'class methods' do
 
@@ -66,9 +64,24 @@ RSpec.describe Application, type: :model do
 
     describe '#pet_count' do
       it 'should return the amount of pets for the application' do
-        apply_app_1
-
         expect(application_1.pet_count).to eq(3)
+      end
+    end
+
+    describe '#all_pets_checked' do
+      it 'should return true if all pets are no longer undecided' do
+        pet_app_1.approved!
+        pet_app_2.approved!
+        pet_app_3.denied!
+
+        expect(application_1.all_pets_checked).to eq(true)
+      end
+      
+      it 'should return false if not all pets are approved or denied' do
+        pet_app_1.approved!
+        pet_app_3.denied!
+        
+        expect(application_1.all_pets_checked).to eq(false)
       end
     end
   end
