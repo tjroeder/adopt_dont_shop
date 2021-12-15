@@ -1,6 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe Application, type: :model do
+  describe 'relationships' do
+    it { should have_many(:pet_applications) }
+    it { should have_many(:pets).through(:pet_applications) }
+  end
+  
+  describe 'validations' do
+    it { should validate_presence_of :name }
+    it { should validate_presence_of :street_address }
+    it { should validate_presence_of :city }
+    it { should validate_presence_of :state }
+    it { should validate_presence_of :zip_code }
+    it { should validate_presence_of :description }
+    it { should validate_presence_of :status }
+    it { should validate_presence_of :status }
+  end
+
   let!(:shelter_1) { Shelter.create!(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9) }
   let!(:shelter_2) { Shelter.create!(name: 'Dumb Friends League', city: 'Denver, CO', foster_program: true, rank: 6) }
   let!(:shelter_3) { Shelter.create!(name: 'Animal House', city: 'Fort Collins, CO', foster_program: false, rank: 9) }
@@ -25,20 +41,6 @@ RSpec.describe Application, type: :model do
     PetApplication.create!(pet: pet_4, application: application_2)
   }
 
-  describe 'relationships' do
-    it { should have_many(:pet_applications) }
-    it { should have_many(:pets).through(:pet_applications) }
-  end
-
-  describe 'validations' do
-    it { should validate_presence_of :name }
-    it { should validate_presence_of :street_address }
-    it { should validate_presence_of :city }
-    it { should validate_presence_of :state }
-    it { should validate_presence_of :zip_code }
-    it { should validate_presence_of :description }
-    it { should validate_presence_of :status }
-  end
 
   describe 'class methods' do
 
