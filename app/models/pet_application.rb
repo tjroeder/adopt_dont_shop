@@ -1,8 +1,10 @@
 class PetApplication < ApplicationRecord
   belongs_to :pet
   belongs_to :application
-  enum app_approval: ['Undecided', 'Approved', 'Denied']
+  enum app_approval: ['undecided', 'approved', 'denied']
   after_initialize :set_defaults
+
+  validates :pet, :application, :app_approval, presence: true
 
   # Class Methods
 
@@ -13,6 +15,6 @@ class PetApplication < ApplicationRecord
   # Instance Methods
   
   def set_defaults
-    self.app_approval ||= 'Undecided'
+    self.app_approval ||= 'undecided'
   end
 end
