@@ -36,12 +36,6 @@ RSpec.describe Application, type: :model do
     PetApplication.create!(pet: pet_3, application: application_1)
   }
 
-  let(:apply_app_2) { 
-    PetApplication.create!(pet: pet_2, application: application_2)
-    PetApplication.create!(pet: pet_4, application: application_2)
-  }
-
-
   describe 'class methods' do
 
   end
