@@ -6,6 +6,16 @@ RSpec.describe PetApplication, type: :model do
     it { should belong_to(:application) }
   end
 
+  describe 'validations' do
+    it { should validate_presence_of(:pet) }
+    it { should validate_presence_of(:application) }
+    it { should validate_presence_of(:app_approval) }
+    it { should define_enum_for(:app_approval) }
+    it do
+      should define_enum_for(:app_approval).with_values(['undecided', 'approved', 'denied'])
+    end
+  end
+
   let!(:shelter_1) { Shelter.create!(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9) }
   let!(:shelter_2) { Shelter.create!(name: 'Dumb Friends League', city: 'Denver, CO', foster_program: true, rank: 6) }
   let!(:shelter_3) { Shelter.create!(name: 'Animal House', city: 'Fort Collins, CO', foster_program: false, rank: 9) }
@@ -43,7 +53,7 @@ RSpec.describe PetApplication, type: :model do
       it 'sets the default app_approval to undecided' do
         expectation = PetApplication.create!(pet: pet_4, application: application_1)
 
-        expect(expectation.app_approval).to eq('Undecided') 
+        expect(expectation.app_approval).to eq('undecided') 
       end
     end
   end
