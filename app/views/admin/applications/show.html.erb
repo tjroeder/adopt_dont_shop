@@ -3,10 +3,11 @@
 <% @application.pet_applications.each do |pet_app| %>
   <p>
   <section id="<%= pet_app.pet_id %>">
-    <%= pet_app.pet.name %> <%= "Adoption approved" if pet_app.approved? %>
+    <%= pet_app.pet.name %> <%= "Adoption approved" if pet_app.approved? %> <%= "Adoption denied" if pet_app.denied? %>
     <% if pet_app.app_approval == 'undecided' %>
       <%= form_with model: [:admin, pet_app], local: true do |pa| %>
-        <%= pa.submit 'approved' %>
+        <%= pa.submit 'approve' %>
+        <%= pa.submit 'deny' %>
       <% end %>
     <% end %>
   </section>

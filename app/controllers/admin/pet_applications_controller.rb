@@ -2,12 +2,12 @@ class Admin::PetApplicationsController < ApplicationController
   before_action :set_pet_application, only: [:update]
 
   def update
-    if pet_app_params[:commit] == 'approved'
+    if pet_app_params[:commit] == 'approve'
       @pet_application.approved!
     else
       @pet_application.denied!
     end
-    redirect_to admin_application_path(@pet_application)
+    redirect_to admin_application_path(@pet_application.application)
   end
 
   private
