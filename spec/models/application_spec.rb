@@ -34,10 +34,6 @@ RSpec.describe Application, type: :model do
   let!(:pet_app_2) { PetApplication.create!(pet: pet_2, application: application_1) }
   let!(:pet_app_3) { PetApplication.create!(pet: pet_3, application: application_1) }
 
-  describe 'class methods' do
-
-  end
-
   describe 'instance methods' do
     describe '#set_defaults' do
       it 'should set the default description upon creation' do
@@ -68,20 +64,85 @@ RSpec.describe Application, type: :model do
       end
     end
 
-    describe '#all_pets_checked' do
+    describe '#all_pets_checked?' do
       it 'should return true if all pets are no longer undecided' do
         pet_app_1.approved!
         pet_app_2.approved!
         pet_app_3.denied!
-
-        expect(application_1.all_pets_checked).to eq(true)
+        
+        expect(application_1.all_pets_checked?).to eq(true)
       end
       
       it 'should return false if not all pets are approved or denied' do
         pet_app_1.approved!
         pet_app_3.denied!
         
-        expect(application_1.all_pets_checked).to eq(false)
+        expect(application_1.all_pets_checked?).to eq(false)
+      end
+    end
+    
+    describe '#all_approved?' do
+      it 'should return true if all pets are approved' do
+        pet_app_1.approved!
+        pet_app_2.approved!
+        pet_app_3.approved!
+
+        expect(application_1.all_approved?).to eq(true)
+      end
+      
+      it 'should return false if all pets are denied' do
+        pet_app_1.denied!
+        pet_app_2.denied!
+        pet_app_3.denied!
+  
+        expect(application_1.all_approved?).to eq(false)
+      end
+
+      it 'should return false if any pets are denied' do
+        pet_app_1.denied!
+        pet_app_2.approved!
+        pet_app_3.approved!
+  
+        expect(application_1.all_approved?).to eq(false)
+      end
+    end
+
+    describe '#update_application_status!' do
+      it 'should not change status if all pets are not checked' do
+        expect(application_1.status).to eq('In Progress')
+
+        pet_app_1.denied!
+        pet_app_2.approved!
+        application_1.update_application_status!
+
+        expect(application_1.status).to eq('In Progress')
+      end
+      
+      it 'should change status to approved if all pets are approved' do
+        pet_app_1.approved!
+        pet_app_2.approved!
+        pet_app_3.approved!
+        application_1.update_application_status!
+
+        expect(application_1.status).to eq('Approved')
+      end
+      
+      it 'should change status to denied if all pets are denied' do
+        pet_app_1.denied!
+        pet_app_2.denied!
+        pet_app_3.denied!
+        application_1.update_application_status!
+
+        expect(application_1.status).to eq('Denied')
+      end
+
+      it 'should change status to denied if any pets are denied' do
+        pet_app_1.approved!
+        pet_app_2.approved!
+        pet_app_3.denied!
+        application_1.update_application_status!
+
+        expect(application_1.status).to eq('Denied')
       end
     end
   end
