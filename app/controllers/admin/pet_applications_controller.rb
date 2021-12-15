@@ -7,6 +7,8 @@ class Admin::PetApplicationsController < ApplicationController
     else
       @pet_application.denied!
     end
+    
+    @pet_application.application.update_application_status!
     redirect_to admin_application_path(@pet_application.application)
   end
 

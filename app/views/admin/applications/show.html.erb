@@ -1,4 +1,5 @@
 <h1>Application #<%= @application.id %> Appoval</h1>
+<h2>Application Status: <%= @application.status %></h2>
 <h2>Pet's Awaiting Decision:</h2>
 <% @application.pet_applications.each do |pet_app| %>
   <p>

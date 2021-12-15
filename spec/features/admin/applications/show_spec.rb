@@ -33,6 +33,10 @@ RSpec.describe '/admin/applications/show.html.erb', type: :feature do
             expect(page).to have_content(pet_3.name)
             expect(page).to have_no_content(pet_4.name)
           end
+
+          it 'shows application pending status for the application' do
+            expect(page).to have_content("Application Status: Pending")
+          end
           
           it 'has buttons to approve each pet' do
             within("##{pet_app_1.pet_id}") do
@@ -138,6 +142,60 @@ RSpec.describe '/admin/applications/show.html.erb', type: :feature do
             within("##{pet_app_1.pet_id}") do
               expect(page).to have_content('Adoption denied')
             end
+          end
+
+          it 'after approving all pets the application shows approved status' do
+            within("##{pet_app_1.pet_id}") do
+              click_button('approve')
+            end
+
+            within("##{pet_app_2.pet_id}") do
+              click_button('approve')
+            end
+
+            within("##{pet_app_3.pet_id}") do
+              click_button('approve')
+            end
+
+            expected = admin_application_path(application_1)
+            expect(page).to have_current_path(expected)
+            expect(page).to have_content("Application Status: Approved")
+          end
+
+          it 'after denying all pets the application shows denied status' do
+            within("##{pet_app_1.pet_id}") do
+              click_button('deny')
+            end
+
+            within("##{pet_app_2.pet_id}") do
+              click_button('deny')
+            end
+
+            within("##{pet_app_3.pet_id}") do
+              click_button('deny')
+            end
+
+            expected = admin_application_path(application_1)
+            expect(page).to have_current_path(expected)
+            expect(page).to have_content("Application Status: Denied")
+          end
+
+          it 'after denying any pets the application shows denied status' do
+            within("##{pet_app_1.pet_id}") do
+              click_button('approve')
+            end
+
+            within("##{pet_app_2.pet_id}") do
+              click_button('approve')
+            end
+
+            within("##{pet_app_3.pet_id}") do
+              click_button('deny')
+            end
+
+            expected = admin_application_path(application_1)
+            expect(page).to have_current_path(expected)
+            expect(page).to have_content("Application Status: Denied")
           end
         end
       end
