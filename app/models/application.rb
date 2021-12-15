@@ -3,7 +3,6 @@ class Application < ApplicationRecord
   has_many :pets, through: :pet_applications
   after_initialize :set_defaults
 
-  validates_associated :pet_applications
   validates :name, :street_address, :city, :state, :zip_code, :description, :status, presence: true
 
   # Class Methods
