@@ -163,9 +163,8 @@ During the evaluation, you will present your user story:
 
 ## Deploy
 
+- [x] done
 ```
-[ ] done
-
 Deploy your application to Heroku
 
 As a visitor of the site
@@ -181,9 +180,8 @@ Use these guides: https://devcenter.heroku.com/articles/getting-started-with-rai
 
 Visitors to the site will be able to create applications to adopt pets. An application has many pets. Pets can have many applications.
 
+- [x] done
 ```
-[ ] done
-
 Application Show Page
 
 As a visitor
@@ -196,9 +194,8 @@ Then I can see the following:
 - The Application's status, either "In Progress", "Pending", "Accepted", or "Rejected"
 ```
 
+- [x] done
 ```
-[ ] done
-
 Starting an Application
 
 As a visitor
@@ -218,9 +215,8 @@ And I see my Name, address information, and description of why I would make a go
 And I see an indicator that this application is "In Progress"
 ```
 
+- [x] done
 ```
-[ ] done
-
 Starting an Application, Form not Completed
 
 As a visitor
@@ -231,9 +227,8 @@ Then I am taken back to the new applications page
 And I see a message that I must fill in those fields.
 ```
 
+- [x] done
 ```
-[ ] done
-
 Searching for Pets for an Application
 
 As a visitor
@@ -247,9 +242,8 @@ Then I am taken back to the application show page
 And under the search bar I see any Pet whose name matches my search
 ```
 
+- [x] done
 ```
-[ ] done
-
 Add a Pet to an Application
 
 As a visitor
@@ -262,9 +256,8 @@ Then I am taken back to the application show page
 And I see the Pet I want to adopt listed on this application
 ```
 
+- [x] done
 ```
-[ ] done
-
 Submit an Application
 
 As a visitor
@@ -280,9 +273,8 @@ And I see all the pets that I want to adopt
 And I do not see a section to add more pets to this application
 ```
 
+- [x] done
 ```
-[ ] done
-
 No Pets on an Application
 
 As a visitor
@@ -295,9 +287,8 @@ Then I do not see a section to submit my application
 
 These stories emphasize key database concepts
 
+- [x] done
 ```
-[ ] done
-
 Partial Matches for Pet Names
 
 As a visitor
@@ -307,9 +298,8 @@ Then I see any pet whose name PARTIALLY matches my search
 For example, if I search for "fluff", my search would match pets with names "fluffy", "fluff", and "mr. fluff"
 ```
 
+- [x] done
 ```
-[ ] done
-
 Case Insensitive Matches for Pet Names
 
 As a visitor
@@ -319,6 +309,7 @@ Then my search is case insensitive
 For example, if I search for "fluff", my search would match pets with names "Fluffy", "FLUFF", and "Mr. FlUfF"
 ```
 
+- [x] done
 ```
 SQL Only Story
 
@@ -331,6 +322,7 @@ When I visit the admin shelter index ('/admin/shelters')
 Then I see all Shelters in the system listed in reverse alphabetical order by name
 ```
 
+- [x] done
 ```
 For this story, you should fully leverage ActiveRecord methods in your query.
 
@@ -347,10 +339,8 @@ And in this section I see the name of every shelter that has a pending applicati
 Pets on an application can either be accepted or rejected.
 
 For this set of stories, we will be making routes that begin with '/admin'. This is to indicate that only a user with special privileges should be able to accept or reject pets on an application. Normally, we would want to make sure that a user is logged into an admin account before being able complete any of this workflow, but we will not add any log in or authorization functionality to this project.
-
+- [x] done
 ```
-[ ] done
-
 Approving a Pet for Adoption
 
 As a visitor
@@ -362,9 +352,8 @@ And next to the pet that I approved, I do not see a button to approve this pet
 And instead I see an indicator next to the pet that they have been approved
 ```
 
+- [x] done
 ```
-[ ] done
-
 Rejecting a Pet for Adoption
 
 As a visitor
@@ -376,6 +365,7 @@ And next to the pet that I rejected, I do not see a button to approve or reject 
 And instead I see an indicator next to the pet that they have been rejected
 ```
 
+- [x] done
 ```
 Approved/Rejected Pets on one Application do not affect other Applications
 
@@ -392,9 +382,8 @@ And instead I see buttons to approve or reject the pet for this specific applica
 
 Once all pets on an application have been marked either accepted or rejected, then the application is no longer "Pending". If all the pets were accepted, then the application is "Accepted". If one or more pets on the application is rejected, then the entire application is "Rejected".
 
+- [x] done
 ```
-[ ] done
-
 All Pets Accepted on an Application
 
 As a visitor
@@ -404,9 +393,8 @@ Then I am taken back to the admin application show page
 And I see the application's status has changed to "Approved"
 ```
 
+- [x] done
 ```
-[ ] done
-
 One or More Pets Rejected on an Application
 
 As a visitor
