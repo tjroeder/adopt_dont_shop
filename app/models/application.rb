@@ -20,4 +20,12 @@ class Application < ApplicationRecord
   def pet_count
     pets.count
   end
+
+  def all_pets_checked
+    pet_applications.all? { |pet_app| pet_app.app_approval != 'undecided' }
+  end
+
+  def update_application_status
+    
+  end
 end
