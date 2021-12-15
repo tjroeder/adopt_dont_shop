@@ -33,11 +33,6 @@ RSpec.describe PetApplication, type: :model do
   let!(:pet_app_2) { PetApplication.create!(pet: pet_2, application: application_1) }
   let!(:pet_app_3) { PetApplication.create!(pet: pet_3, application: application_1) }
 
-  let(:apply_app_2) { 
-    PetApplication.create!(pet: pet_2, application: application_2)
-    PetApplication.create!(pet: pet_4, application: application_2)
-  }
-
   describe 'class methods' do
     describe '::find_by_application_and_pet' do
       it 'returns the pet application given application and pet ids' do
